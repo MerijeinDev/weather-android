@@ -1,6 +1,6 @@
-# Weather — Android Portfolio Project
+# Weather — Android Project
 
-A simple, modern weather app for Android. Built as part of a junior-developer portfolio to demonstrate Jetpack Compose, MVVM, networking with Retrofit, and a layered architecture.
+A simple, modern weather app for Android. Built as part of a junior-developer to demonstrate Jetpack Compose, MVVM, networking with Retrofit, and a layered architecture.
 
 ## Screenshots
 
