@@ -4,6 +4,7 @@ import com.weather.app.data.remote.WeatherApi
 import com.weather.app.data.remote.dto.WeatherResponseDto
 import com.weather.app.domain.model.CurrentWeather
 import com.weather.app.domain.model.DailyWeather
+import com.weather.app.domain.model.HourlyWeather
 import com.weather.app.domain.model.Weather
 import com.weather.app.domain.model.WeatherCondition
 
@@ -28,6 +29,14 @@ class WeatherRepository(
             isDay = current.is_day == 1
         )
 
+        val hourlyDomain = hourly.time.indices.map { i ->
+            HourlyWeather(
+                time = hourly.time[i],
+                temperature = hourly.temperature_2m[i],
+                condition = WeatherCondition.fromCode(hourly.weather_code[i])
+            )
+        }
+
         val dailyDomain = daily.time.indices.map { i ->
             DailyWeather(
                 date = daily.time[i],
@@ -38,6 +47,10 @@ class WeatherRepository(
             )
         }
 
-        return Weather(current = currentDomain, daily = dailyDomain)
+        return Weather(
+            current = currentDomain,
+            hourly = hourlyDomain,
+            daily = dailyDomain
+        )
     }
 }

@@ -15,8 +15,10 @@ interface WeatherApi {
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("current") current: String = CURRENT_FIELDS,
+        @Query("hourly") hourly: String = HOURLY_FIELDS,
         @Query("daily") daily: String = DAILY_FIELDS,
-        @Query("timezone") timezone: String = "auto"
+        @Query("timezone") timezone: String = "auto",
+        @Query("forecast_days") forecastDays: Int = 7
     ): WeatherResponseDto
 
     companion object {
@@ -24,6 +26,9 @@ interface WeatherApi {
 
         private const val CURRENT_FIELDS =
             "temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code,is_day"
+
+        private const val HOURLY_FIELDS =
+            "temperature_2m,weather_code"
 
         private const val DAILY_FIELDS =
             "temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum"

@@ -12,7 +12,15 @@ data class WeatherResponseDto(
     val longitude: Double,
     val timezone: String,
     val current: CurrentWeatherDto,
+    val hourly: HourlyWeatherDto,
     val daily: DailyWeatherDto
+)
+
+@Serializable
+data class HourlyWeatherDto(
+    val time: List<String>,
+    val temperature_2m: List<Double>,
+    val weather_code: List<Int>
 )
 
 @Serializable

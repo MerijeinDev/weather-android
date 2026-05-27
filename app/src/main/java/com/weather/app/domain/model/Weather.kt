@@ -5,6 +5,7 @@ package com.weather.app.domain.model
  */
 data class Weather(
     val current: CurrentWeather,
+    val hourly: List<HourlyWeather>,
     val daily: List<DailyWeather>
 )
 
@@ -15,6 +16,12 @@ data class CurrentWeather(
     val windSpeed: Double,
     val condition: WeatherCondition,
     val isDay: Boolean
+)
+
+data class HourlyWeather(
+    val time: String,
+    val temperature: Double,
+    val condition: WeatherCondition
 )
 
 data class DailyWeather(
