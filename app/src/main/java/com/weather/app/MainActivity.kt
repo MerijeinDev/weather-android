@@ -10,7 +10,7 @@ import com.weather.app.data.location.LocationProvider
 import com.weather.app.data.remote.NetworkModule
 import com.weather.app.data.repository.WeatherRepository
 import com.weather.app.presentation.theme.WeatherTheme
-import com.weather.app.presentation.weather.WeatherScreen
+import com.weather.app.presentation.weather.HomeScreenRoot
 import com.weather.app.presentation.weather.WeatherViewModel
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WeatherTheme {
-                WeatherScreen(viewModel)
+                HomeScreenRoot(viewModel = viewModel)
             }
         }
     }
