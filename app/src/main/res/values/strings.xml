@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weather</string>
+
+    <!-- Daily forecast notification -->
+    <string name="notif_channel_name">Daily forecast</string>
+    <string name="notif_channel_description">A morning notification with today\'s weather summary.</string>
+    <string name="notif_title">Today in %1$s</string>
+    <string name="notif_title_no_city">Today\'s forecast</string>
+    <string name="notif_body_high_low">High %1$d°, low %2$d°.</string>
+</resources>
