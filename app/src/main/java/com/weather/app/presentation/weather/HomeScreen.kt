@@ -2,6 +2,7 @@ package com.weather.app.presentation.weather
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -135,7 +136,13 @@ private fun TopBar(
 
         Spacer(Modifier.weight(1f))
 
-        Box(contentAlignment = Alignment.TopEnd) {
+        Box(
+            contentAlignment = Alignment.TopEnd,
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .clickable(onClick = onNotificationClick)
+                .padding(4.dp),
+        ) {
             Icon(
                 imageVector = Icons.Outlined.Notifications,
                 contentDescription = "Notifications",

@@ -9,16 +9,24 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.weather.app.data.local.DatabaseModule
 import com.weather.app.data.location.LocationProvider
 import com.weather.app.data.notification.DailyWeatherScheduler
 import com.weather.app.data.notification.WeatherNotifications
 import com.weather.app.data.remote.NetworkModule
+import com.weather.app.data.repository.NotificationRepository
 import com.weather.app.data.repository.WeatherRepository
 import com.weather.app.presentation.navigation.WeatherNavGraph
+import com.weather.app.presentation.notifications.NotificationsViewModel
 import com.weather.app.presentation.theme.WeatherTheme
 import com.weather.app.presentation.weather.WeatherViewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val database by lazy { DatabaseModule.provide(applicationContext) }
+    private val notificationRepository by lazy {
+        NotificationRepository(database.notificationDao())
+    }
 
     private val viewModel: WeatherViewModel by viewModels {
         object : ViewModelProvider.Factory {
@@ -26,7 +34,20 @@ class MainActivity : ComponentActivity() {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val repository = WeatherRepository(NetworkModule.weatherApi)
                 val locationProvider = LocationProvider(this@MainActivity)
-                return WeatherViewModel(repository, locationProvider) as T
+                return WeatherViewModel(
+                    repository = repository,
+                    locationProvider = locationProvider,
+                    notificationRepository = notificationRepository,
+                ) as T
+            }
+        }
+    }
+
+    private val notificationsViewModel: NotificationsViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return NotificationsViewModel(notificationRepository) as T
             }
         }
     }
@@ -49,7 +70,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WeatherTheme {
-                WeatherNavGraph(viewModel = viewModel)
+                WeatherNavGraph(
+                    viewModel = viewModel,
+                    notificationsViewModel = notificationsViewModel,
+                )
             }
         }
     }

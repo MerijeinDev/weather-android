@@ -6,16 +6,21 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.weather.app.presentation.notifications.NotificationsScreenRoot
+import com.weather.app.presentation.notifications.NotificationsViewModel
 import com.weather.app.presentation.weather.HomeScreenRoot
 import com.weather.app.presentation.weather.WeatherDetailScreen
 import com.weather.app.presentation.weather.WeatherViewModel
 
 /**
- * Single NavHost for the app. The shared [WeatherViewModel] is passed down to both screens so
- * Home and Detail render the same [com.weather.app.presentation.weather.WeatherUiState].
+ * Single NavHost for the app. ViewModels are owned by [com.weather.app.MainActivity] so they
+ * survive config changes and are shared between destinations that need the same state.
  */
 @Composable
-fun WeatherNavGraph(viewModel: WeatherViewModel) {
+fun WeatherNavGraph(
+    viewModel: WeatherViewModel,
+    notificationsViewModel: NotificationsViewModel,
+) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = HomeRoute) {
@@ -23,6 +28,7 @@ fun WeatherNavGraph(viewModel: WeatherViewModel) {
             HomeScreenRoot(
                 viewModel = viewModel,
                 onForecastClick = { navController.navigate(DetailRoute) },
+                onNotificationClick = { navController.navigate(NotificationsRoute) },
             )
         }
 
@@ -34,6 +40,13 @@ fun WeatherNavGraph(viewModel: WeatherViewModel) {
                 onSettingsClick = { /* TODO: settings route */ },
                 onCalendarClick = { /* TODO: full calendar route */ },
                 onRetry = { viewModel.loadWeatherForCurrentLocation() },
+            )
+        }
+
+        composable<NotificationsRoute> {
+            NotificationsScreenRoot(
+                viewModel = notificationsViewModel,
+                onClose = { navController.popBackStack() },
             )
         }
     }

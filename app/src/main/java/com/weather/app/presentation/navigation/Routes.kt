@@ -11,3 +11,6 @@ data object HomeRoute
 
 @Serializable
 data object DetailRoute
+
+@Serializable
+data object NotificationsRoute
